@@ -23,7 +23,7 @@ class Plate extends React.Component{
                                                 if(this.props.plateArr[i][j]===0) return(<div></div>)
                                                 if(this.props.plateArr[i][j]===1) return(<div>⚫️</div>)
                                                 if(this.props.plateArr[i][j]===-1) return(<div>⚪️</div>)
-                                            }.bind(this))()
+                                            }).bind(this)()
                                         }
                                     </button>
                                 </td>

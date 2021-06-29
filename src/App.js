@@ -1,5 +1,7 @@
 import React from "react"
 import Plate from "./components/Plate"
+const winRule = require('./rules/winRule')
+const prophibitRule = require('./rules/prohibitRule')
 
 const max = 15;
 const plateStateArr = Array.from(Array(max), () => Array(max).fill(0))
