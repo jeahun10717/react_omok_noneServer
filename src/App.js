@@ -44,7 +44,7 @@ class App extends React.Component{
   render(){
     return (
       <div>
-        <Plate change={this.turnChange} plateArr={this.state.plateState} />
+        <Plate change={this.turnChange} plateArr={this.state.plateState} turn={this.state.turn}/>
       </div>
     );
   }

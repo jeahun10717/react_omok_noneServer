@@ -3,13 +3,22 @@ import "./Plate.css"
 
 const arr = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
 
-function setStone(props) {
-    
-}
+
 
 class Plate extends React.Component{
     render(){
         return <div>
+           <div>
+               {
+                    (function () {
+                        if(this.props.turn===0){
+                            return <div>⚫️ 흑돌차례입니다 ⚫️</div>
+                        }else{
+                            return <div>⚪️ 백돌차례입니다 ⚪️</div>
+                        }     
+                    }).bind(this)()
+               }
+           </div>
             <table key="omokPlate" className="omokPlate">
                 <tbody>
                 {arr.map((i)=>(
