@@ -2,6 +2,7 @@ import React from "react"
 import Plate from "./components/Plate"
 const winRule = require('./rules/winRule')
 const prophibitRule = require('./rules/prohibitRule')
+const arrayCopy = require('./rules/arrayCopy')
 
 const max = 15;
 const plateStateArr = Array.from(Array(max), () => Array(max).fill(0))
@@ -19,9 +20,9 @@ class App extends React.Component{
   }
 
   turnChange(i, j){// i, j 는 받아오는 좌표값
-    let tmpArr = plateStateArr; // 얕은 복사 : 기본적으로 tmpArr 와 plateStateArr 는 값을 공유한다(주소가 같은 얕은복사이기 때문)
+    let tmpArr;
+	tmpArr = arrayCopy.arrayCopy(this.state.plateState, tmpArr, max);
     let winResult;
-    // console.log(this.state.plateState);
     if(this.state.plateState[i][j]===0){
       if(this.state.turn===0){
         tmpArr[i][j]=1
@@ -38,10 +39,7 @@ class App extends React.Component{
           plateState:tmpArr,
           turn:1
         })}
-        this.setState({
-          plateState:tmpArr,
-          turn:1
-        })
+    
       }else{
         tmpArr[i][j]=-1
         winResult = winRule.winRule(this.state.turn, tmpArr, max)
