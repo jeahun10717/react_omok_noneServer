@@ -43,7 +43,9 @@ class App extends React.Component{
       }else{
         tmpArr[i][j]=-1
         winResult = winRule.winRule(this.state.turn, tmpArr, max)
-        if(winResult==="whiteWin"){
+        if(winResult==="long"){
+			
+		}else if(winResult==="whiteWin"){
           window.location.href = "http://localhost:3000/"
           // this.setState({
           //   plateState:emptyPlate.map(v=>v.slice()),
