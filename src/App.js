@@ -1,7 +1,7 @@
 import React from "react"
 import Plate from "./components/Plate"
 const winRule = require('./rules/winRule')
-const prophibitRule = require('./rules/prohibitRule')
+const prohibitRule = require('./rules/prohibitRule')
 const arrayCopy = require('./rules/arrayCopy')
 
 const max = 15;
@@ -26,6 +26,7 @@ class App extends React.Component{
     if(this.state.plateState[i][j]===0){
       if(this.state.turn===0){
         tmpArr[i][j]=1
+		prohibitRule.prohibit3by3(tmpArr, max)
         winResult = winRule.winRule(this.state.turn, tmpArr, max)
         console.log(winResult);
         if(winResult==="prohibitRule"){ // 6목 이상일 때
