@@ -189,19 +189,3 @@ exports.winRule = (turn, stoneArr, max) => {
         }
     }
 }
-
-function checkAround(i, j, turn, checkArr){ // 돌을 놓는 곳을 기준으로 8방향에서 돌이 존재하는 확인하는 부분
-    // turn 은 흑,백돌을 판단하는 부분, checkArr 는 확인할 배열
-    // checkArr[i-1][j-1]===turn 
-    // checkArr[i][j-1]===turn 
-    // checkArr[i+1][j-1]===turn 
-    // checkArr[i-1][j]===turn 
-    // checkArr[i+1][j]===turn 
-    // checkArr[i-1][j+1]===turn 
-    // checkArr[i][j+1]===turn 
-    // checkArr[i+1][j+1]===turn 
-}
-
-exports.test = ()=>{
-    console.log("test");
-}
