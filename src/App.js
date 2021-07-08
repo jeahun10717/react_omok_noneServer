@@ -22,17 +22,21 @@ class App extends React.Component{
   turnChange(i, j){// i, j 는 받아오는 좌표값
     let tmpArr;
 	tmpArr = arrayCopy.arrayCopy(this.state.plateState, tmpArr, max);
-    let winResult, prohibit3By3;
+    let winResult, prohibit3By3, prohibit4By4;
     if(this.state.plateState[i][j]===0){
       if(this.state.turn===0){
         tmpArr[i][j]=1
 		// console.log(tmpArr);
         winResult = winRule.winRule(this.state.turn, tmpArr, max)
 		prohibit3By3 = prohibitRule.prohibit3by3(tmpArr, max, i, j)
-        console.log(prohibit3By3);
+		prohibit4By4 = prohibitRule.prohibit4By4(tmpArr, max, i, j)
+        console.log(prohibit4By4);
 		// console.log(winResult);
 		if(prohibit3By3 === "prohibit"){
-			tmpArr[i][j]=0;
+			tmpArr[i][j] = 0;
+			this.setState({turn:0})
+		}else if(prohibit4By4 === "prohibit"){
+			tmpArr[i][j] = 0;
 			this.setState({turn:0})
 		}else if(winResult==="prohibitRule"){ // 6목 이상일 때
           console.log("6목 금지");
