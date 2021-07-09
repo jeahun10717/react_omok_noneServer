@@ -7,7 +7,6 @@ const arrayCopy = require('./rules/arrayCopy')
 const max = 15;
 const plateStateArr = Array.from(Array(max), () => Array(max).fill(0))
 const emptyPlate = Array.from(Array(max), () => Array(max).fill(0))
-
 class App extends React.Component{
 
   constructor(props) {
@@ -26,8 +25,7 @@ class App extends React.Component{
     if(this.state.plateState[i][j]===0){
       if(this.state.turn===0){
         tmpArr[i][j]=1
-		// console.log(tmpArr);
-        winResult = winRule.winRule(this.state.turn, tmpArr, max)
+		winResult = winRule.winRule(this.state.turn, tmpArr, max)
 		prohibit3By3 = prohibitRule.prohibit3by3(tmpArr, max, i, j)
 		prohibit4By4 = prohibitRule.prohibit4By4(tmpArr, max, i, j)
         console.log(prohibit4By4);
@@ -43,7 +41,7 @@ class App extends React.Component{
           tmpArr[i][j]=0
           this.setState({turn:0})
         }else if(winResult==="blackWin"){
-          window.location.href = "http://localhost:3000/"
+          window.location.reload()
         }else if(winResult==="continue"){
         this.setState({
           plateState:tmpArr,

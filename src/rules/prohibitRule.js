@@ -252,22 +252,31 @@ function threeLineChk(arr, line, i, j) { // line 은 방향
 
 exports.prohibit4By4 = (plateArr, lineNum, i, j) => {
     let tmpArr;
+    let openChk = 0;
     tmpArr = copyArr.arrayCopy(plateArr, tmpArr, lineNum);
     let check4By4Arr = [];
     for (let x = 0; x < 4; x++) {
         check4By4Arr[x] = fourBlackCnt(tmpArr, x, i, j);
     }
     let fourState = Array.from(Array(4).fill(false))
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    console.log(check4By4Arr);
     if (check4By4Arr.filter(element => element === 4).length >= 2) { // 1줄에 4인개 2개 이상일 때
         for (let x = 0; x < 4; x++) {
             if (check4By4Arr[x] === 4) { // 4개인 부붙의 인덱스를 확인하기 위한 for 문
                 let fourChk = fourCheck(tmpArr, x, i, j);
                 console.log(fourChk, "hhhhhhhhhhhhh");
-                if (fourChk === "4By4") {
+                if (fourChk[0] === "4By4") {
+                    openChk+=fourChk[1];
                     fourState[x] = true;
-                } else if (fourChk === "none4By4") {
+                } else if (fourChk[0] === "none4By4") {
                     fourState[x] = false;
                 }
+            }
+        }
+        if(openChk>2){
+            for (let x = 0; x < 4; x++) {
+                fourState[x] = false;                
             }
         }
     } else if (check4By4Arr.filter(element => element === 5).length === 1) {
@@ -280,9 +289,26 @@ exports.prohibit4By4 = (plateArr, lineNum, i, j) => {
             }
         }
     } else if (check4By4Arr.filter(element => element === 6).length === 1) {
-
+        console.log(123123123)
+        for (let x = 0; x < 4; x++) {
+            if(check4By4Arr[x] === 6){
+                console.log(x, "lineNum check ")
+                let fourSixChk = six4By4Check(tmpArr, x, i, j);
+                if(fourSixChk === "4By4"){
+                    return "prohibit";
+                }
+            }
+        }
     } else if (check4By4Arr.filter(element => element === 7).length === 1) {
-
+        console.log("start seven 4 by 4 prohibit rule");
+        for (let x = 0; x < 4; x++) {
+            if(check4By4Arr[x] === 7){
+                let fourSevenChk = seven4By4Check(tmpArr, x, i, j);
+                if(fourSevenChk === "4By4"){
+                    return "prohibit";
+                }
+            }
+        }
     }
     console.log(fourState);
     if (fourState.filter(element => element === true).length >= 2) {
@@ -319,6 +345,88 @@ function five4By4Check(arr, line, i, j) {
         }
     }
 }
+function six4By4Check(arr, line, i, j) {
+    console.log("alsdjflasdjfalsdjfalsdjfalsdkfj");
+
+    if(line===0){
+        if((i-3>=0 && i+4<=14)||(i-4>=0 && i+3<=14)){
+            if(arr[i-3][j] === 1 && arr[i-2][j] === 1 && arr[i-1][j] === 0 && arr[i][j] === 1 && arr[i+1][j] === 1 && arr[i+2][j] === 0 && arr[i+3][j] === 1 && arr[i+4][j] === 1){
+                return "4By4"
+            }else if(arr[i-4][j] === 1 && arr[i-3][j] === 1 && arr[i-2][j] === 0 && arr[i-1][j] === 1 && arr[i][j] === 1 && arr[i+1][j] === 0 && arr[i+2][j] === 1 && arr[i+3][j] === 1){
+                return "4By4"
+            }else{
+                return "none4By4"
+            }
+        }
+    }else if(line===1){
+        if((i-3>=0 && i+4<=14 && j-4>=0 && j+3<=14)||(i-4>=0 && i+3<=14 && j-3>=0 && j+4<=14)){
+            if(arr[i-3][j+3] === 1 && arr[i-2][j+2] === 1 && arr[i-1][j+1] === 0 && arr[i][j] === 1 && arr[i+1][j-1] === 1 && arr[i+2][j-2] === 0 && arr[i+3][j-3] === 1 && arr[i+4][j-4] === 1){
+                return "4By4"
+            }else if(arr[i-4][j+4] === 1 && arr[i-3][j+3] === 1 && arr[i-2][j+2] === 0 && arr[i-1][j+1] === 1 && arr[i][j] === 1 && arr[i+1][j-1] === 0 && arr[i+2][j-2] === 1 && arr[i+3][j-3] === 1){
+                return "4By4"
+            }else{
+                return "none4By4"
+            }
+        }
+    }else if(line===2){
+        if((j+3<=14 && j-4>=0)||(j+4<=14 && j-3>=0)){
+            if(arr[i][j+3] === 1 && arr[i][j+2] === 1 && arr[i][j+1] === 0 && arr[i][j] === 1 && arr[i][j-1] === 1 && arr[i][j-2] === 0 && arr[i][j-3] === 1 && arr[i][j-4] === 1){
+                return "4By4"
+            }else if(arr[i][j+4] === 1 && arr[i][j+3] === 1 && arr[i][j+2] === 0 && arr[i][j+1] === 1 && arr[i][j] === 1 && arr[i][j-1] === 0 && arr[i][j-2] === 1 && arr[i][j-3] === 1){
+                return "4By4"
+            }else{
+                console.log("none4By4");
+                return "none4By4"
+            }
+        }
+    }else if(line===3){
+        if((i+3<=14 && i-4>=0 && j+3<=14 && j-4>=0)||(i+4<=14 && i-3>=0 && j+4<=14 && j-3>=0)){
+            if(arr[i+3][j+3] === 1 && arr[i+2][j+2] === 1 && arr[i+1][j+1] === 0 && arr[i][j] === 1 && arr[i-1][j-1] === 1 && arr[i-2][j-2] === 0 && arr[i-3][j-3] === 1 && arr[i-4][j-4] === 1){
+                return "4By4"
+            }else if(arr[i+4][j+4] === 1 && arr[i+3][j+3] === 1 && arr[i+2][j+2] === 0 && arr[i+1][j+1] === 1 && arr[i][j] === 1 && arr[i-1][j-1] === 0 && arr[i-2][j-2] === 1 && arr[i-3][j-3] === 1 ){
+                return "4By4"
+            }else{
+                return "none4By4"
+            }
+        }
+    }
+}
+
+function seven4By4Check(arr, line, i, j) {
+    if(line===0){
+        if(i-4>0 && i+4<=14){
+            if(arr[i-4][j]===1 && arr[i-3][j]===1 && arr[i-2][j]===1 && arr[i-1][j]===0 && arr[i][j]===1 && arr[i+1][j]===0 && arr[i+2][j]===1 && arr[i+3][j]===1 && arr[i+4][j]===1){
+                return "4By4"
+            }else{
+                return "none4By4"
+            }
+        }
+    }else if(line===1){
+        if(i-4>=0 && i+4<=14 && j-4>=0 && j+4<=14){
+            if(arr[i+4][j-4]===1 && arr[i+3][j-3]===1 && arr[i+2][j-2]===1 && arr[i+1][j-1]===0 && arr[i][j]==1 && arr[i-1][j+1]===0 && arr[i-2][j+2]===1 && arr[i-3][j+3]===1 && arr[i-4][j+4]===1){
+                return "4By4"
+            }else{
+                return "none4By4"
+            }
+        }
+    }else if(line===2){
+        if(j-4>=0 && j+4<=14){
+            if(arr[i][j-4]===1 && arr[i][j-3]===1 && arr[i][j-2]===1 && arr[i][j-1]===0 && arr[i][j]==1 && arr[i][j+1]===0 && arr[i][j+2]===1 && arr[i][j+3]===1 && arr[i][j+4]===1){
+                return "4By4"
+            }else{
+                return "none4By4"
+            }
+        }
+    }else if(line===3){
+        if(i-4>=0 && i+4>=0 && j-4>=0 && j+4<=14){
+            if(arr[i-4][j-4]===1 && arr[i-3][j-3]===1 && arr[i-2][j-2]===1 && arr[i-1][j-1]===0 && arr[i][j]===1 && arr[i+1][j+1]===0 && arr[i+2][j+2]===1 && arr[i+3][j+3]===1 && arr[i+4][j+4]===1){
+                return "4By4"
+            }else{
+                return "none4By4"
+            }
+        }
+    }
+}
 
 
 function fourCheck(arr, line, i, j) {
@@ -345,9 +453,19 @@ function fourCheck(arr, line, i, j) {
         }
         if (tmpBlackArr.length <= 5) {
             if (tmpBlackArr.filter(element => element === -1).length === 1) {
-                return "none4By4"
+                return ["none4By4", 0]
             } else {
-                return "4By4"
+                let openChkCnt=0;
+                if(tmpBlackArr.length===4){
+                    if(firstBlack[0]-1<0 || arr[firstBlack[0]-1][j]===-1){
+                        openChkCnt++;
+                    }
+                    if(lastBlack[0]+1>14 || arr[lastBlack[0]+1][j]){
+                        openChkCnt++;
+                    }
+                    return ["4By4", openChkCnt]
+                }
+                return ["4By4", openChkCnt]
             }
         }
     } else if (line === 1) {
@@ -373,9 +491,19 @@ function fourCheck(arr, line, i, j) {
         }
         if (tmpBlackArr.length <= 5) {
             if (tmpBlackArr.filter(element => element === -1).length === 1) {
-                return "none4By4"
+                return ["none4By4", 0]
             } else {
-                return "4By4"
+                let openChkCnt = 0;
+                if(tmpBlackArr.length===4){
+                    if((firstBlack[0]-1<0 && firstBlack[1]+1>14) || arr[firstBlack[0]-1][firstBlack[1]+1]===-1){
+                        openChkCnt++;
+                    }
+                    if((lastBlack[0]+1>14 && lastBlack[1]-1<0)|| arr[lastBlack[0]+1][lastBlack[1]-1]===-1){
+                        openChkCnt++;
+                    }
+                    return ["4By4", openChkCnt]
+                }
+                return ["4By4", openChkCnt]
             }
         }
     } else if (line === 2) {
@@ -404,7 +532,17 @@ function fourCheck(arr, line, i, j) {
             if (tmpBlackArr.filter(element => element === -1).length === 1) {
                 return "none4By4"
             } else {
-                return "4By4"
+                let openChkCnt=0;
+                if(tmpBlackArr.length===4){
+                    if(firstBlack[1]+1>14 || arr[i][firstBlack[1]+1]===-1){
+                        openChkCnt++;
+                    }
+                    if(lastBlack[1]-1<0 || arr[i][lastBlack[1]-1]===-1){
+                        openChkCnt++;
+                    }
+                    return ["4By4", openChkCnt]
+                }
+                return ["4By4", openChkCnt]
             }
         }
     } else if (line === 3) {
@@ -433,7 +571,17 @@ function fourCheck(arr, line, i, j) {
             if (tmpBlackArr.filter(element => element === -1).length === 1) {
                 return "none4By4"
             } else {
-                return "4By4"
+                let openChkCnt = 0;
+                if(tmpBlackArr.length===4){
+                    if((firstBlack[0]+1>14 && firstBlack[1]+1>14) || arr[firstBlack[0]+1][firstBlack[1]+1]===-1){
+                        openChkCnt++;
+                    }
+                    if((lastBlack[0]-1<0 && lastBlack[1]-1<0)|| arr[lastBlack[0]-1][lastBlack[1]-1]===-1){
+                        openChkCnt++;
+                    }
+                    return ["4By4", openChkCnt]
+                }
+                return ["4By4", openChkCnt]
             }
         }
 
@@ -484,7 +632,7 @@ function fourBlackCnt(arr, line, i, j) { // 착수지점 기준으로 4방향의
         let blackCnt = 0;
         for (let k = -4; k <= 4; k++) {
             if (j + k >= 0 && j + k <= 14) { // DOWN TO UP : i 의 범위는 0~14까지만 가능
-                if (arr[i][j - k] === 1) {
+                if (arr[i][j + k] === 1) {
                     blackCnt++;
                 }
             }
